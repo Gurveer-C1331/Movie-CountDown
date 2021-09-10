@@ -3,7 +3,7 @@ var searchBar = document.getElementById('search-bar');
 var resultsDiv = document.getElementById("results-container");
 var nextBtn = document.getElementById("next-btn");
 var previousBtn = document.getElementById("previous-btn");
-var addBtn, removeBtn; 
+var addBtn, removeBtn;
 //information for api use
 const url = "https://api.themoviedb.org/3";
 const apiKey = "8b44439b22495d003fe165611e34d4e5";

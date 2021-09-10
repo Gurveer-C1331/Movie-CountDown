@@ -3,7 +3,7 @@ var searchBar = document.getElementById('search-bar');
 var container = document.getElementById('main-container'); //container to hold all cards
 
 var sortMethod = document.getElementById("sort-method"); //sort text button
-//direction arrow buttons 
+//direction arrow buttons
 var sortDirectionUp = document.getElementById("sort-directionUp");
 var sortDirectionDown = document.getElementById("sort-directionDown");
 var informationText = document.getElementById("info-text");
