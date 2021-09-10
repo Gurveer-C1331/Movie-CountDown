@@ -10,7 +10,7 @@ var informationText = document.getElementById("info-text");
 var cardArr = []; //will hold all movie/tv series cards (html elements created in createCard)
 //information for api use
 const url = "https://api.themoviedb.org/3";
-const apiKey = "API KEY";
+const apiKey = "8b44439b22495d003fe165611e34d4e5";
 
 var movie_Collection, tv_Collection; //to hold values for movie and tv series cookies
 

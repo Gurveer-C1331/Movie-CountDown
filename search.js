@@ -6,7 +6,7 @@ var previousBtn = document.getElementById("previous-btn");
 var addBtn, removeBtn;
 //information for api use
 const url = "https://api.themoviedb.org/3";
-const apiKey = "API KEY";
+const apiKey = "8b44439b22495d003fe165611e34d4e5";
 
 var search_typed = null; //search string entered in the search bar
 var currentPage = null; //current page user is on
