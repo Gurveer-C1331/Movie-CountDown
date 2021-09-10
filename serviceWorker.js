@@ -6,7 +6,7 @@ self.addEventListener('notificationclick', function(e) {
     notification.close();
   } 
   else {
-    clients.openWindow('https://www.cs.ryerson.ca/~g3chahal/Movie%20CountDown/home.html');
+    clients.openWindow('https://gurveer-c1331.github.io/Movie-CountDown');
     notification.close();
   }
 });
