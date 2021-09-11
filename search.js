@@ -312,7 +312,7 @@ async function checkTv(searchItem) {
   var search_response = await axios.get(url+"/tv/"+searchItem["id"]+"?api_key="+apiKey);
   var search_data = search_response.data;
   var seasons = search_data["seasons"];
-  var today = new Date(2018, 11, 24, 10, 33, 30, 0);
+  var today = new Date();
   for (var i = 0; i < seasons.length; i++) {
     var airDate = new Date(seasons[i]["air_date"]+"T00:00:00");
     //if there is a planned season for the future
