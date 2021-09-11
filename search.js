@@ -163,8 +163,8 @@ async function getSearch(searchString, page) {
         //append the searchCard created to the results
         if (mediaType == "movie") resultsDiv.append(createCard(title, poster, id, mediaType)); //append movie results
         //append tv results (future season # is added to the end of id string)
-        //id = "12300"; new season # = "5" => new id = "123005"
-        else resultsDiv.append(createCard(title, poster, id+String(search_results[i]["currentSeason"]), mediaType));
+        //id = "12300"; new season # = "5" => new id = "12300@5"
+        else resultsDiv.append(createCard(title, poster, id+"@"+String(search_results[i]["currentSeason"]), mediaType));
       }
 
       addBtn = document.getElementsByClassName("add-text");
@@ -312,7 +312,7 @@ async function checkTv(searchItem) {
   var search_response = await axios.get(url+"/tv/"+searchItem["id"]+"?api_key="+apiKey);
   var search_data = search_response.data;
   var seasons = search_data["seasons"];
-  var today = new Date();
+  var today = new Date(2018);
   for (var i = 0; i < seasons.length; i++) {
     var airDate = new Date(seasons[i]["air_date"]+"T00:00:00");
     //if there is a planned season for the future

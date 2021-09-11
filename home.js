@@ -143,14 +143,15 @@ async function displayMovies(movies) {
 //movies -> list of tv series ids
 async function displayTV(tv) {
   for (var i = 0; i < tv.length; i++) {
-    var search_response = await axios.get(url+"/tv/"+tv[i].substr(0, tv[i].length-1)+"?api_key="+apiKey+"&region=CA");
+    var tvID = tv[i].split("@");
+    var search_response = await axios.get(url+"/tv/"+tvID[0]+"?api_key="+apiKey+"&region=CA");
     var search_data = search_response.data;
     var seasons = search_data["seasons"];
     //modifies the data for tv series (to specify the new season)
-    search_data["name"] += " ("+seasons[tv[i].substr(-1)]["name"]+")";
+    search_data["name"] += " ("+seasons[tvID[1]]["name"]+")";
     search_data["id"] = tv[i];
-    search_data["poster_path"] = seasons[tv[i].substr(-1)]["poster_path"] || search_data["poster_path"];
-    search_data["first_air_date"] = seasons[tv[i].substr(-1)]["air_date"]
+    search_data["poster_path"] = seasons[tvID[1]]["poster_path"] || search_data["poster_path"];
+    search_data["first_air_date"] = seasons[tvID[1]]["air_date"]
     cardArr.push(createCard(search_data, "TV Series"));
   }
 }
