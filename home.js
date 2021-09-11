@@ -110,7 +110,6 @@ sortDirectionDown.addEventListener("click", function(e) {
 //return -> value contained in the cookie
 function getCookie(cookieName) {
   var cookies = document.cookie.split(';');
-  console.log(document.cookie);
   for (var i = 0; i < cookies.length; i++) {
     if (cookies[i].includes(cookieName)) {
       console.log(cookies[i].split('=')[1], cookieName);
