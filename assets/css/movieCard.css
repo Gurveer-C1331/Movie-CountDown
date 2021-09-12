@@ -129,7 +129,7 @@ td img {
 
 .date-text img {
   padding-right: .5em;
-  height: 80%;
+  height: 1.3em;
 }
 
 .media-text {
@@ -203,9 +203,9 @@ td img {
     padding-top: .3em;
   }
   
-  .date-text img {
+  /* .date-text img {
     height: 75%;
-  }
+  } */
   
   .media-text {
     font-size: 1em;
