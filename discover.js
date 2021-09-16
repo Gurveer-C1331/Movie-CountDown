@@ -57,7 +57,7 @@ searchBtn.addEventListener("click", async function (e) {
   e.preventDefault();
 });
 
-//user presses "Enter" which typing in the search bar
+//user presses "Enter" when typing in the search bar
 searchBar.addEventListener("keyup", async function(e) {
   if (e.keyCode == 13) {
     if (searchBar.value) {
