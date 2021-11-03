@@ -29,6 +29,7 @@ $("document").ready(async function() {
   //gets the tv series collection (from the tv_Collection cookie)
   tv_Collection = getCookie("tv_Collection") || [];
   if (typeof tv_Collection == "string") tv_Collection = [tv_Collection];
+  //setCookie("tv_Collection", ["456@33", "120734@0", "88329@0", "134297@0", "134029@0", "115036@0", "131404@0", "80968@2", "100698@1", "116156@0", "116155@0", "110492@0", "137003@0"], 365)
   await displayTV(tv_Collection);
 
   //remove loading image
@@ -162,7 +163,8 @@ async function displayTV(tv) {
 function createCard(data, mediaType) {
   //assign variables needed to create card
   var title = data["title"] || data["name"];
-  if (data["production_companies"][0]) var studio = data["production_companies"][0]["name"];
+  if (mediaType == "TV Series" && data["networks"][0]) var studio = (data["networks"][0]["name"]);
+  else if (data["production_companies"][0]) var studio = data["production_companies"][0]["name"];
   else var studio = "";
   if (data["poster_path"]) var poster = data["poster_path"];
   else var poster = "";
