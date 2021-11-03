@@ -126,7 +126,7 @@ async function getSearch(page) {
     
     //going through all the search results
     for (var i = 0; i < search_results.length; i++) {
-      if (!(await checkTv(search_results[i]))) continue;
+      await checkTv(search_results[i]);
       //getting data to create card
       var title =  search_results[i]["name"];
       var poster = search_results[i]["poster_path"];
@@ -214,11 +214,9 @@ async function checkTv(searchItem) {
   var season_number = next_episode["season_number"];
   var season = search_data["seasons"][season_number] || search_data["seasons"][season_number-1];
   var today = new Date();
-  //for (var i = 0; i < seasons.length; i++) {
-    var airDate = new Date(next_episode["air_date"]+"T00:00:00");
-    //if there is a planned season for the future
+  var airDate = new Date(next_episode["air_date"]+"T00:00:00");
+  //if there is a planned episode for the future
   if (today.getTime() < airDate.getTime()) {
-    console.log(searchItem["name"]);
     //modify data (for the specific season)
     searchItem["name"] += " ("+season["name"]+")";
     searchItem["currentSeason"] = season_number;
@@ -226,6 +224,5 @@ async function checkTv(searchItem) {
     searchItem["poster_path"] = season["poster_path"] || search_data["poster_path"];
     return true;
   }
-  //}
   return false;
 }
