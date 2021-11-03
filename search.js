@@ -124,6 +124,9 @@ async function getSearch(searchString, page) {
     currentPage = page;
     totalPages = search_data["total_pages"];
 
+    //hide previous and next buttons
+    $("#previous-btn").hide();
+    $("#next-btn").hide();
     //display loading image
     resultsDiv.classList.add("results-loader");
     resultsDiv.innerHTML = "<div class='loader'></div>";

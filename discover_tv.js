@@ -109,6 +109,9 @@ async function getSearch(page) {
     totalPages = search_data["total_pages"];
     var search_results = search_data["results"];
 
+    //hide previous and next buttons
+    $("#previous-btn").hide();
+    $("#next-btn").hide();
     //display loading image
     resultsDiv.classList.add("results-loader");
     resultsDiv.innerHTML = "<div class='loader'></div>";
