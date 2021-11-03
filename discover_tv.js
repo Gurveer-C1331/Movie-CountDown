@@ -118,24 +118,6 @@ async function getSearch(page) {
     //remove loading image
     resultsDiv.innerHTML = "";
     resultsDiv.classList.remove("results-loader");
-
-    //set previous & next button to hide or show (depending the # of resulting pages & current page being viewed)
-    if (currentPage == 1 && currentPage == totalPages) {
-      $("#previous-btn").hide();
-      $("#next-btn").hide();
-    }
-    else if (currentPage == 1) {
-      $("#previous-btn").hide();
-      $("#next-btn").show();
-    }
-    else if (currentPage == totalPages) {
-      $("#previous-btn").show();
-      $("#next-btn").hide();
-    }
-    else {
-      $("#previous-btn").show();
-      $("#next-btn").show();
-    }
     
     //going through all the search results
     for (var i = 0; i < search_results.length; i++) {
@@ -174,6 +156,24 @@ async function getSearch(page) {
         e.srcElement.parentElement.parentElement.children[5].style.display = "none";
         e.preventDefault();
       });
+    }
+
+    //set previous & next button to hide or show (depending the # of resulting pages & current page being viewed)
+    if (currentPage == 1 && currentPage == totalPages) {
+      $("#previous-btn").hide();
+      $("#next-btn").hide();
+    }
+    else if (currentPage == 1) {
+      $("#previous-btn").hide();
+      $("#next-btn").show();
+    }
+    else if (currentPage == totalPages) {
+      $("#previous-btn").show();
+      $("#next-btn").hide();
+    }
+    else {
+      $("#previous-btn").show();
+      $("#next-btn").show();
     }
   }
 
