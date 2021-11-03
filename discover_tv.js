@@ -9,6 +9,7 @@ const url = "https://api.themoviedb.org/3";
 const apiKey = "8b44439b22495d003fe165611e34d4e5";
 
 var currentPage = null; //current page user is on
+var previousPage = []; //holds previous page #s
 var totalPages = null; //total # of pages user can browse
 //assigning values from cookies
 var movie_Collection = getCookie("movie_Collection") || [];
@@ -83,7 +84,9 @@ nextBtn.addEventListener("click", async function(e) {
 //previous to go to previous search results
 previousBtn.addEventListener("click", async function(e) {
   if (currentPage > 1) {
-    await getSearch(currentPage-=1);
+    console.log(previousPage);
+    previousPage.pop();
+    await getSearch(previousPage.pop());
     scroll(0,0);
   }
   else {
@@ -106,6 +109,16 @@ async function getSearch(page) {
     totalPages = search_data["total_pages"];
     var search_results = search_data["results"];
 
+    //display loading image
+    resultsDiv.classList.add("results-loader");
+    resultsDiv.innerHTML = "<div class='loader'></div>";
+
+    var search_results = await combineResults(); //get filtered results
+
+    //remove loading image
+    resultsDiv.innerHTML = "";
+    resultsDiv.classList.remove("results-loader");
+
     //set previous & next button to hide or show (depending the # of resulting pages & current page being viewed)
     if (currentPage == 1 && currentPage == totalPages) {
       $("#previous-btn").hide();
@@ -126,7 +139,6 @@ async function getSearch(page) {
     
     //going through all the search results
     for (var i = 0; i < search_results.length; i++) {
-      await checkTv(search_results[i]);
       //getting data to create card
       var title =  search_results[i]["name"];
       var poster = search_results[i]["poster_path"];
@@ -203,20 +215,48 @@ function createCard(title, poster, id, mediaType) {
   return searchCard;
 }
 
-//checks tv series to check for any future seasons
+//combine results from different pages (of the API) to gather 20 movies/tv series to fill page
+//each page is filtered to only retrieve data for upcoming and ongoing (with future episodes) tv series
+//currentPage -> current results page returned by the API
+//totalPages -> total number of pages returned by the API
+//return -> array containing all future releasing movies and tv series
+async function combineResults() {
+  //filtering results will lead to each result page combining a varying # of API pages
+  //Ex. Page 1 maybe combine 2 page worth of data, while Page 2 might combine 10 page worth of data from the API
+  previousPage.push(currentPage); //save previous page # to make prev. and next page possible
+  var resultsArr = [];
+  
+  while (currentPage != totalPages+1 && resultsArr.length < 20) {
+    var today = new Date();
+    var search_response = await axios.get(url+"/discover/tv?api_key="+apiKey+"&air_date.gte="+today.toJSON().substr(0,10)+"&page="+currentPage);
+    var search_data = search_response.data;
+    for (var i = 0; i < search_data["results"].length; i++) {
+      var searchItem = search_data["results"][i];
+      if (await checkTv(searchItem)) {
+          resultsArr.push(searchItem);
+      }
+    }
+    currentPage += 1;
+  }
+  currentPage -= 1;
+  return resultsArr;
+}
+
+//checks tv series to check for any future seasons or ongoing seasons with future episodes
 //searchItem -> tv series object (retrieved from API)
 //return -> true (if there exists a future season) along with season object OR false (no future seasons)
 async function checkTv(searchItem) {
   var search_response = await axios.get(url+"/tv/"+searchItem["id"]+"?api_key="+apiKey);
   var search_data = search_response.data;
   console.log(search_data);
+  if (!search_data["next_episode_to_air"]) return false;
   var next_episode = search_data["next_episode_to_air"];
   var season_number = next_episode["season_number"];
   var season = search_data["seasons"][season_number] || search_data["seasons"][season_number-1];
   var today = new Date();
   var airDate = new Date(next_episode["air_date"]+"T00:00:00");
   //if there is a planned episode for the future
-  if (today.getTime() < airDate.getTime()) {
+  if (today.getTime() < airDate.getTime() && next_episode) {
     //modify data (for the specific season)
     searchItem["name"] += " ("+season["name"]+")";
     searchItem["currentSeason"] = season_number;
