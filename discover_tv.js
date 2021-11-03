@@ -126,12 +126,12 @@ async function getSearch(page) {
     
     //going through all the search results
     for (var i = 0; i < search_results.length; i++) {
-      await checkTv(search_results[i]);
+      if (!(await checkTv(search_results[i]))) continue;
       //getting data to create card
       var title =  search_results[i]["name"];
       var poster = search_results[i]["poster_path"];
       var id = search_results[i]["id"];
-      resultsDiv.append(createCard(title, poster, id+"@"+String(search_results[i]["currentSeason"]), "tv")); //append the searchCard to fill results container
+      resultsDiv.append(createCard(title, poster, id+"@"+String(search_results[i]["currentSeason"])+"@"+String(search_results[i]["currentEpisode"]), "tv")); //append the searchCard to fill results container
     }
 
     addBtn = document.getElementsByClassName("add-text");
@@ -209,18 +209,23 @@ function createCard(title, poster, id, mediaType) {
 async function checkTv(searchItem) {
   var search_response = await axios.get(url+"/tv/"+searchItem["id"]+"?api_key="+apiKey);
   var search_data = search_response.data;
-  var seasons = search_data["seasons"];
+  console.log(search_data);
+  var next_episode = search_data["next_episode_to_air"];
+  var season_number = next_episode["season_number"];
+  var season = search_data["seasons"][season_number] || search_data["seasons"][season_number-1];
   var today = new Date();
-  for (var i = 0; i < seasons.length; i++) {
-    var airDate = new Date(seasons[i]["air_date"]+"T00:00:00");
+  //for (var i = 0; i < seasons.length; i++) {
+    var airDate = new Date(next_episode["air_date"]+"T00:00:00");
     //if there is a planned season for the future
-    if (today.getTime() < airDate.getTime()) {
-      //modify data (for the specific season)
-      searchItem["name"] += " ("+seasons[i]["name"]+")";
-      searchItem["currentSeason"] = i;
-      searchItem["poster_path"] = seasons[i]["poster_path"] || search_data["poster_path"];
-      return true;
-    }
+  if (today.getTime() < airDate.getTime()) {
+    console.log(searchItem["name"]);
+    //modify data (for the specific season)
+    searchItem["name"] += " ("+season["name"]+")";
+    searchItem["currentSeason"] = season_number;
+    searchItem["currentEpisode"] = next_episode["episode_number"];
+    searchItem["poster_path"] = season["poster_path"] || search_data["poster_path"];
+    return true;
   }
+  //}
   return false;
 }
