@@ -159,11 +159,11 @@ async function getSearch(page) {
     }
 
     //set previous & next button to hide or show (depending the # of resulting pages & current page being viewed)
-    if (currentPage == 1 && currentPage == totalPages) {
+    if (previousPage.length == 1 && currentPage == totalPages) {
       $("#previous-btn").hide();
       $("#next-btn").hide();
     }
-    else if (currentPage == 1) {
+    else if (previousPage.length == 1) {
       $("#previous-btn").hide();
       $("#next-btn").show();
     }
