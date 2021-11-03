@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="icon" href="assets/images/M.png" type="image/png">
+  <link rel="stylesheet" href="assets/css/discover.css">
+  <link rel="stylesheet" href="assets/css/search.css">
+  <link rel="stylesheet" href="assets/css/nav.css">
+  <link rel="stylesheet" href="assets/css/loader.css">
+  <title>Discover</title>
+</head>
+<body>
+  <header>
+    <h1 id="logo">Movie CountDown</h1>
+    <nav>
+      <div class="links-container">
+        <a href="../Movie-CountDown/" id="home-btn">Home</a>
+        <a href="discover.html" id="discover-btn">Discover</a>
+        <a href="discoverTV.html" id="discover-btn">DiscoverT</a>
+        <a href="profile.html" id="profile-btn">Profile</a>
+      </div>
+      <div class="search-container">
+        <input type="text" placeholder="Search" name="search-bar" id="search-bar">
+        <img src="assets/images/search-icon.svg" alt="" id="search-btn">
+      </div>
+    </nav>
+  </header>
+
+  <div id="results-container">
+    
+  </div>
+
+  <div id="button-container">
+    <a id="previous-btn">Previous</a>
+    <a id="next-btn">Next</a>
+  </div>
+  
+  
+  <footer>
+    <span>This product uses the TMDb API but is not endorsed or certified by TMDb</span>
+  </footer>
+  <script src="discover_tv.js"></script>
+</body>
+</html>
