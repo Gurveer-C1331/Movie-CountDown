@@ -135,24 +135,6 @@ async function getSearch(searchString, page) {
     resultsDiv.classList.remove("results-loader");
 
     if (search_results.length != 0) {
-      //set previous & next button to hide or show (depending the # of resulting pages & current page being viewed)
-      if (previousPage.length == 1 && currentPage == totalPages) {
-        $("#previous-btn").hide();
-        $("#next-btn").hide();
-      }
-      else if (previousPage.length == 1) {
-        $("#previous-btn").hide();
-        $("#next-btn").show();
-      }
-      else if (currentPage == totalPages) {
-        $("#previous-btn").show();
-        $("#next-btn").hide();
-      }
-      else {
-        $("#previous-btn").show();
-        $("#next-btn").show();
-      }
-      
       //create cards for all search results
       for (var i = 0; i < search_results.length; i++) {
         //getting data to create card
@@ -220,6 +202,23 @@ async function getSearch(searchString, page) {
         });
       }
    
+      //set previous & next button to hide or show (depending the # of resulting pages & current page being viewed)
+      if (previousPage.length == 1 && currentPage == totalPages) {
+        $("#previous-btn").hide();
+        $("#next-btn").hide();
+      }
+      else if (previousPage.length == 1) {
+        $("#previous-btn").hide();
+        $("#next-btn").show();
+      }
+      else if (currentPage == totalPages) {
+        $("#previous-btn").show();
+        $("#next-btn").hide();
+      }
+      else {
+        $("#previous-btn").show();
+        $("#next-btn").show();
+      }
     }
     
     //no results (after filtering out movies/tv series that have already released)
