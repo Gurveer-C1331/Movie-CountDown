@@ -31,10 +31,6 @@ nav {
   margin-right: 1em;
 }
 
-.links-container a:last-child {
-  margin-right: 0;
-}
-
 #search-bar {
   border-radius: 20px;
   border: none;
@@ -87,6 +83,9 @@ footer {
   }
   .links-container {
     margin: auto;
+  }
+  .links-container a:last-child {
+    margin-right: 0;
   }
   h1 {
     margin: auto;
