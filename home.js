@@ -29,9 +29,10 @@ $("document").ready(async function() {
   //gets the tv series collection (from the tv_Collection cookie)
   tv_Collection = getCookie("tv_Collection") || [];
   if (typeof tv_Collection == "string") tv_Collection = [tv_Collection];
+  updateTVID();
   //setCookie("tv_Collection", ["456@33", "120734@0", "88329@0", "134297@0", "134029@0", "115036@0", "131404@0", "80968@2", "100698@1", "116156@0", "116155@0", "110492@0", "137003@0"], 365)
   await displayTV(tv_Collection);
-
+  
   //remove loading image
   container.innerHTML = "";
   container.classList.remove("results-loader");
@@ -128,6 +129,18 @@ function setCookie(name, value, days) {
   var expireDate =  new Date();
   expireDate.setTime(expireDate.getTime() + (days*24*60*60*1000));
   document.cookie = name+"="+value+";expires="+expireDate.toUTCString();
+}
+
+//replaces old tv series ids with updated ones
+function updateTVID() {
+  var tv_Collection = getCookie("tv_Collection");
+  for (x in tv_Collection) {
+    console.log(tv_Collection[x]);
+    tvID = tv_Collection[x].split("@");
+    //console.log(tvID[0]);
+    tv_Collection[x] = tvID[0];
+  }
+  setCookie("tv_Collection", tv_Collection, 365);
 }
 
 //goes through the movies list (from movie_Collection cookie) to add html card into cardArr
@@ -242,6 +255,7 @@ function createCard(data, mediaType) {
 function setRemoveBtn(element) {
   var removeBtn = element.getElementsByClassName("remove-text");
   removeBtn[0].addEventListener("click", function(e) {
+    console.log(element.getElementsByClassName("id")[0].innerHTML)
     var id = element.getElementsByClassName("id")[0].innerHTML;
     //for movies (remove movie id from movie collection cookie)
     if (movie_Collection.includes(id)) {
@@ -255,7 +269,7 @@ function setRemoveBtn(element) {
       tv_Collection.splice(index, 1);
       setCookie("tv_Collection", tv_Collection, 365);
     }
-    e.srcElement.parentElement.parentElement.parentElement.remove(); //remove entire card
+    //e.srcElement.parentElement.parentElement.parentElement.remove(); //remove entire card
     e.preventDefault();
   });
 }
