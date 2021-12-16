@@ -242,7 +242,7 @@ function createCard(data, mediaType) {
 function setRemoveBtn(element) {
   var removeBtn = element.getElementsByClassName("remove-text");
   removeBtn[0].addEventListener("click", function(e) {
-    var id = e.srcElement.parentElement.parentElement.children[2].children[2].innerHTML;
+    var id = element.getElementsByClassName("id")[0].innerHTML;
     //for movies (remove movie id from movie collection cookie)
     if (movie_Collection.includes(id)) {
       var index = movie_Collection.indexOf(id);
