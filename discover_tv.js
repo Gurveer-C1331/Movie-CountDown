@@ -128,7 +128,7 @@ async function getSearch(page) {
       var title =  search_results[i]["name"];
       var poster = search_results[i]["poster_path"];
       var id = search_results[i]["id"];
-      resultsDiv.append(createCard(title, poster, id+"@"+String(search_results[i]["currentSeason"])+"@"+String(search_results[i]["currentEpisode"]), "tv")); //append the searchCard to fill results container
+      resultsDiv.append(createCard(title, poster, id, "tv")); //append the searchCard to fill results container
     }
 
     addBtn = document.getElementsByClassName("add-text");
@@ -251,7 +251,7 @@ async function combineResults() {
 async function checkTv(searchItem) {
   var search_response = await axios.get(url+"/tv/"+searchItem["id"]+"?api_key="+apiKey);
   var search_data = search_response.data;
-  console.log(search_data);
+  //console.log(search_data);
   if (!search_data["next_episode_to_air"]) return false;
   var next_episode = search_data["next_episode_to_air"];
   var season_number;
