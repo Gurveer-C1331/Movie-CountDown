@@ -137,6 +137,25 @@ td img {
   font-weight: 300;
 }
 
+.bottom {
+  position: absolute;
+  bottom: 0%;
+  padding-bottom: 0.5em;
+  overflow: hidden;
+}
+
+.episode-text {
+  position: relative;
+  bottom: 0%;
+  font-weight: 300;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.episode-text strong {
+  font-weight: 500;
+}
+
 .remove-text img {
   display: none;
   background-color: rgba(0, 0, 0, 75%);
