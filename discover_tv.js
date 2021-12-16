@@ -254,8 +254,10 @@ async function checkTv(searchItem) {
   console.log(search_data);
   if (!search_data["next_episode_to_air"]) return false;
   var next_episode = search_data["next_episode_to_air"];
-  var season_number = next_episode["season_number"];
-  var season = search_data["seasons"][season_number] || search_data["seasons"][season_number-1];
+  var season_number;
+  if (search_data["seasons"][next_episode["season_number"]]) season_number = next_episode["season_number"];
+  else season_number = (search_data["seasons"].length)-1;
+  var season = search_data["seasons"][season_number] || search_data["seasons"][(search_data["seasons"].length)-1];
   var today = new Date();
   var airDate = new Date(next_episode["air_date"]+"T00:00:00");
   //if there is a planned episode for the future
