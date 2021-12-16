@@ -103,7 +103,7 @@ td {
 }
 
 td img {
-  vertical-align: sub;
+  vertical-align: -0.2em;
 }
 
 .days {
@@ -129,7 +129,7 @@ td img {
 
 .date-text img {
   padding-right: .25em;
-  height: 1.3em;
+  height: 1.1em;
 }
 
 .media-text {
