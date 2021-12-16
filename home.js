@@ -144,15 +144,37 @@ async function displayMovies(movies) {
 //movies -> list of tv series ids
 async function displayTV(tv) {
   for (var i = 0; i < tv.length; i++) {
+    console.log(tvID)
     var tvID = tv[i].split("@");
     var search_response = await axios.get(url+"/tv/"+tvID[0]+"?api_key="+apiKey+"&region=CA");
     var search_data = search_response.data;
+    console.log(search_data)
     var seasons = search_data["seasons"];
-    //modifies the data for tv series (to specify the new season)
-    search_data["name"] += " ("+seasons[tvID[1]]["name"]+")";
+    var last_episode = search_data["last_episode_to_air"];
+    var next_episode = search_data["next_episode_to_air"];
+    //next/final episode information
+    if (!next_episode) { 
+      search_data["air_date"] = search_data["last_air_date"];
+      search_data["next_episode_season"] = last_episode["season_number"];
+      search_data["next_episode_number"] = last_episode["episode_number"];
+      search_data["next_episode_name"] = last_episode["name"];
+      console.log(last_episode["name"]);
+    }
+    else {
+      search_data["air_date"] = next_episode["air_date"];
+      search_data["next_episode_season"] = next_episode["season_number"];
+      search_data["next_episode_number"] = next_episode["episode_number"];
+      search_data["next_episode_name"] = next_episode["name"];
+      console.log(next_episode["name"]);
+    }
+    var season_number;
+    if (seasons[search_data["next_episode_season"]]) season_number = search_data["next_episode_season"];
+    else season_number = (search_data["seasons"].length)-1;
+    //modifies the data for tv series (to specify the new/current season)
+    search_data["name"] += " ("+seasons[season_number]["name"]+")";
     search_data["id"] = tv[i];
-    search_data["poster_path"] = seasons[tvID[1]]["poster_path"] || search_data["poster_path"];
-    search_data["first_air_date"] = seasons[tvID[1]]["air_date"]
+    search_data["poster_path"] = seasons[season_number]["poster_path"] || search_data["poster_path"];
+    
     cardArr.push(createCard(search_data, "TV Series"));
   }
 }
@@ -168,7 +190,7 @@ function createCard(data, mediaType) {
   else var studio = "";
   if (data["poster_path"]) var poster = data["poster_path"];
   else var poster = "";
-  var releaseDate = data["release_date"] || data["first_air_date"];
+  var releaseDate = data["release_date"] || data["air_date"];
   var id = data["id"];
   //main container for each card
   var cardContainer = document.createElement("div");
@@ -182,9 +204,11 @@ function createCard(data, mediaType) {
     <div class="text-container">
       <div class="top no-hover">
         <span class="title-text">`+title+`</span><br>
-        <span class="studio-text">`+studio+`</span>
+        <span class="studio-text">`+studio+`</span><br>
+        <span class="media-text">`+mediaType+`</span>
       </div>
       <div class="middle no-hover">
+        <span class="release-date" style="display: none">`+releaseDate+`</span>
         <table>
           <tbody>
             <tr>
@@ -201,8 +225,7 @@ function createCard(data, mediaType) {
         </table>
       </div>
       <div class="bottom no-hover">
-        <span class="media-text">`+mediaType+`</span>
-        <span class="release-date" style="display: none">`+releaseDate+`</span>
+        <span class="episode-text"><strong>`+"S"+data["next_episode_season"]+"E"+data["next_episode_number"]+": "+`</strong>`+data["next_episode_name"]+`</span>
         <span class="id" style="display: none">`+id+`</span>
       </div>
       <a href="#" class="remove-text">
@@ -322,11 +345,19 @@ function sortList(method, direction) {
     var textContainerWidth = parseFloat(window.getComputedStyle(textContainer[0]).width);
     var titleText = cardArr[i].getElementsByClassName("title-text");
     var studioText = cardArr[i].getElementsByClassName("studio-text");
+    var episodeText = cardArr[i].getElementsByClassName("episode-text");
+    var mediaText = cardArr[i].getElementsByClassName("media-text");
     if (titleText[0].scrollWidth > textContainerWidth) {
       titleText[0].style.animation = "scrollText 8s linear infinite";
     }
     if (studioText[0].scrollWidth > textContainerWidth) {
       studioText[0].style.animation = "scrollText 8s linear infinite";
+    }
+    if (episodeText[0].scrollWidth > textContainerWidth && mediaText[0].innerHTML == "TV Series") {
+      episodeText[0].style.animation = "scrollText 8s linear infinite";
+    }
+    else if (mediaText[0].innerHTML == "Movie") {
+      episodeText[0].style.display = "none";
     }
   }
 }
