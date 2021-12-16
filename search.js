@@ -146,10 +146,7 @@ async function getSearch(searchString, page) {
         var id = search_results[i]["id"];
         var mediaType = search_results[i]["media_type"];
         //append the searchCard created to the results
-        if (mediaType == "movie") resultsDiv.append(createCard(title, poster, id, mediaType)); //append movie results
-        //append tv results (future season # is added to the end of id string)
-        //id = "12300"; new season # = "5" => new id = "12300@5"
-        else resultsDiv.append(createCard(title, poster, id+"@"+String(search_results[i]["currentSeason"]), mediaType));
+        resultsDiv.append(createCard(title, poster, id, mediaType));
       }
 
       addBtn = document.getElementsByClassName("add-text");
