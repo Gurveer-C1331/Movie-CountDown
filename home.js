@@ -238,7 +238,7 @@ function createCard(data, mediaType) {
         </table>
       </div>
       <div class="bottom no-hover">
-        <span class="episode-text"><strong>`+"S"+data["next_episode_season"]+"E"+data["next_episode_number"]+": "+`</strong>`+data["next_episode_name"]+`</span>
+        <span class="episode-text"><strong class="episodeNum">`+"S"+data["next_episode_season"]+"E"+data["next_episode_number"]+": "+`</strong>`+data["next_episode_name"]+`</span>
         <span class="id" style="display: none">`+id+`</span>
       </div>
       <a href="#" class="remove-text">
@@ -255,7 +255,6 @@ function createCard(data, mediaType) {
 function setRemoveBtn(element) {
   var removeBtn = element.getElementsByClassName("remove-text");
   removeBtn[0].addEventListener("click", function(e) {
-    console.log(element.getElementsByClassName("id")[0].innerHTML)
     var id = element.getElementsByClassName("id")[0].innerHTML;
     //for movies (remove movie id from movie collection cookie)
     if (movie_Collection.includes(id)) {
@@ -269,7 +268,7 @@ function setRemoveBtn(element) {
       tv_Collection.splice(index, 1);
       setCookie("tv_Collection", tv_Collection, 365);
     }
-    //e.srcElement.parentElement.parentElement.parentElement.remove(); //remove entire card
+    e.srcElement.parentElement.parentElement.parentElement.remove(); //remove entire card
     e.preventDefault();
   });
 }
@@ -315,7 +314,10 @@ function soonRelease() {
     var difference = releaseDate - today;
     //less than 7 days away from release
     if (difference / (1000 * 60 * 60 * 24) < 8 && difference / (1000 * 60 * 60 * 24) > 0 ) {
-      releaseStr += element.getElementsByClassName("title-text")[0].innerHTML+"\n";
+      var title = element.getElementsByClassName("title-text")[0].innerHTML;
+      var titleText = title.split(" (");
+      var episodeNum = element.getElementsByClassName("episodeNum")[0].innerHTML;
+      releaseStr += titleText[0] + " - " + episodeNum.replace(":", "") +"\n";
     }
   }
   if (releaseStr != "") {
