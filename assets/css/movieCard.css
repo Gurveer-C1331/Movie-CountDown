@@ -115,6 +115,7 @@ td img {
   font-weight: 500;
   text-align: right;
   padding-right: .2em;
+  text-decoration:underline;
 }
 
 .days-text {
