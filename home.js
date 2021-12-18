@@ -217,8 +217,10 @@ function createCard(data, mediaType) {
     <div class="text-container">
       <div class="top no-hover">
         <span class="title-text">`+title+`</span><br>
+        <span class="episode-text"><strong class="episodeNum">`+"S"+data["next_episode_season"]+"E"+data["next_episode_number"]+": "+`</strong>`+data["next_episode_name"]+`</span>
+        <br class="tv-lineBreak">
         <span class="studio-text">`+studio+`</span><br>
-        <span class="media-text">`+mediaType+`</span>
+        <br class="movie-lineBreak">
       </div>
       <div class="middle no-hover">
         <span class="release-date" style="display: none">`+releaseDate+`</span>
@@ -238,7 +240,7 @@ function createCard(data, mediaType) {
         </table>
       </div>
       <div class="bottom no-hover">
-        <span class="episode-text"><strong class="episodeNum">`+"S"+data["next_episode_season"]+"E"+data["next_episode_number"]+": "+`</strong>`+data["next_episode_name"]+`</span>
+        <span class="media-text">`+mediaType+`</span>
         <span class="id" style="display: none">`+id+`</span>
       </div>
       <a href="#" class="remove-text">
@@ -362,6 +364,8 @@ function sortList(method, direction) {
     var titleText = cardArr[i].getElementsByClassName("title-text");
     var studioText = cardArr[i].getElementsByClassName("studio-text");
     var episodeText = cardArr[i].getElementsByClassName("episode-text");
+    var movielineBreak = cardArr[i].getElementsByClassName("movie-lineBreak");
+    var tvlineBreak = cardArr[i].getElementsByClassName("tv-lineBreak");
     var mediaText = cardArr[i].getElementsByClassName("media-text");
     if (titleText[0].scrollWidth > textContainerWidth) {
       titleText[0].style.animation = "scrollText 8s linear infinite";
@@ -371,9 +375,14 @@ function sortList(method, direction) {
     }
     if (episodeText[0].scrollWidth > textContainerWidth && mediaText[0].innerHTML == "TV Series") {
       episodeText[0].style.animation = "scrollText 8s linear infinite";
+      movielineBreak[0].style.display = "none";
     }
     else if (mediaText[0].innerHTML == "Movie") {
       episodeText[0].style.display = "none";
+      tvlineBreak[0].style.display = "none";
+    }
+    else {
+      movielineBreak[0].style.display = "none";
     }
   }
 }
