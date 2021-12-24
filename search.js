@@ -304,24 +304,29 @@ async function combineResults(searchString) {
   return resultsArr;
 }
 
-//checks tv series to check for any future seasons
+//checks tv series to check for any future seasons or ongoing seasons with future episodes
 //searchItem -> tv series object (retrieved from API)
 //return -> true (if there exists a future season) along with season object OR false (no future seasons)
 async function checkTv(searchItem) {
   var search_response = await axios.get(url+"/tv/"+searchItem["id"]+"?api_key="+apiKey);
   var search_data = search_response.data;
-  var seasons = search_data["seasons"];
+  //console.log(search_data);
+  if (!search_data["next_episode_to_air"]) return false;
+  var next_episode = search_data["next_episode_to_air"];
+  var season_number;
+  if (search_data["seasons"][next_episode["season_number"]]) season_number = next_episode["season_number"];
+  else season_number = (search_data["seasons"].length)-1;
+  var season = search_data["seasons"][season_number] || search_data["seasons"][(search_data["seasons"].length)-1];
   var today = new Date();
-  for (var i = 0; i < seasons.length; i++) {
-    var airDate = new Date(seasons[i]["air_date"]+"T00:00:00");
-    //if there is a planned season for the future
-    if (today.getTime() < airDate.getTime()) {
-      //modify data (for the specific season)
-      searchItem["name"] += " ("+seasons[i]["name"]+")";
-      searchItem["currentSeason"] = i;
-      searchItem["poster_path"] = seasons[i]["poster_path"] || search_data["poster_path"];
-      return true;
-    }
+  var airDate = new Date(next_episode["air_date"]+"T00:00:00");
+  //if there is a planned episode for the future
+  if (today.getTime() < airDate.getTime() && next_episode) {
+    //modify data (for the specific season)
+    searchItem["name"] += " ("+season["name"]+")";
+    searchItem["currentSeason"] = season_number;
+    searchItem["currentEpisode"] = next_episode["episode_number"];
+    searchItem["poster_path"] = season["poster_path"] || search_data["poster_path"];
+    return true;
   }
   return false;
 }
