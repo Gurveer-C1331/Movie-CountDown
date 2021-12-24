@@ -22,6 +22,7 @@ if (typeof tv_Collection == "string") tv_Collection = [tv_Collection];
 //cookieName -> name of the cookie
 //return -> value contained in the cookie
 function getCookie(cookieName) {
+  cookieName = cookieName.trim();
   var cookies = document.cookie.split(';');
   for (var i = 0; i < cookies.length; i++) {
     if (cookies[i].includes(cookieName)) {
