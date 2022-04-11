@@ -1,7 +1,9 @@
 var searchBtn = document.getElementById("search-btn");
 var searchBar = document.getElementById('search-bar');
 var exportBtn = document.getElementById('export');
-var importBtn = document.getElementById('import');
+var importField = document.getElementById('import-field');
+var submitBtn = document.getElementById('submit-btn');
+var message = document.getElementById('message');
 
 var movie_Collection, tv_Collection; //to hold values for movie and tv series cookies
 
@@ -49,6 +51,26 @@ function getCookie(cookieName) {
     }
   }
 }
+
+//sets cookies based on name, value and expires after specified days
+function setCookie(name, value, days) {
+  var expireDate =  new Date();
+  expireDate.setTime(expireDate.getTime() + (days*24*60*60*1000));
+  document.cookie = name+"="+value+";expires="+expireDate.toUTCString();
+}
+
+submitBtn.addEventListener("click", async function (e) {
+  var cookies = importField.value;
+  cookies = cookies.split(";");
+  var movie_Collection = cookies[0];
+  var tv_Collection = cookies[1];
+  
+  setCookie("movie_Collection", movie_Collection, 365);
+  setCookie("tv_Collection", tv_Collection, 365);
+ 
+  message.innerText = "Cookie Set"
+  e.preventDefault();
+});
 
 // exportBtn.addEventListener('click', function(e) {
 //   saveCollectionData();

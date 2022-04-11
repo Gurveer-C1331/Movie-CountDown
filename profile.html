@@ -7,6 +7,7 @@
   <link rel="icon" href="assets/images/M.png" type="image/png">
   <link rel="stylesheet" href="assets/css/home.css">
   <link rel="stylesheet" href="assets/css/nav.css">
+  <link rel="stylesheet" href="assets/css/profile.css">
   <link rel="stylesheet" href="assets/css/loader.css">
   <title>Movie CountDown</title>
 </head>
@@ -33,13 +34,12 @@
   <div class="container" id="main-container">
     <div id="export-container">
       <a href="" id="export">Export</a>
-      <img src="assets/images/" alt="" class="button" id="export-btn">
     </div>
     <div id="import-container">
-      <a href="" id="import"></a>
-      <input id="image-file" type="file" onchange="saveFile(this)" >
-      <img src="assets/images/" alt="" class="button" id="import-btn">
+      <input id="import-field" type="text">
+      <img src="assets/images/search-icon.svg" alt="" id="submit-btn">
     </div>
+    <span id="message"></span>
   </div>
 
   <footer>
