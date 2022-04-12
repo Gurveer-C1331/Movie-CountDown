@@ -316,7 +316,7 @@ function soonRelease() {
     var today = new Date();
     var difference = releaseDate - today;
     //less than 7 days away from release
-    if (difference / (1000 * 60 * 60 * 24) < 1000 && difference / (1000 * 60 * 60 * 24) > 0 ) {
+    if (difference / (1000 * 60 * 60 * 24) < 8 && difference / (1000 * 60 * 60 * 24) > 0 ) {
       var title = element.getElementsByClassName("title-text")[0].innerHTML;
       var titleText = title.split(" (");
       var episodeNum = element.getElementsByClassName("episodeNum")[0].innerHTML;
