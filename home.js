@@ -28,7 +28,6 @@ $("document").ready(async function() {
   await displayMovies(movie_Collection);
   //gets the tv series collection (from the tv_Collection cookie)
   tv_Collection = getCookie("tv_Collection") || [];
-  console.log(tv_Collection == []);
   if (typeof tv_Collection == "string") tv_Collection = [tv_Collection];
   //if (tv_Collection != []) updateTVID();
   //setCookie("tv_Collection", ["456@33", "120734@0", "88329@0", "134297@0", "134029@0", "115036@0", "131404@0", "80968@2", "100698@1", "116156@0", "116155@0", "110492@0", "137003@0"], 365)
@@ -312,17 +311,20 @@ function soonRelease() {
   var cards = document.getElementsByClassName("card-container");
   for (var i = 0; i < cards.length; i++) {
     var element = cards[i];
+    var mediaType = element.getElementsByClassName("media-text")[0].innerHTML;
     var releaseDate = new Date(element.getElementsByClassName("release-date")[0].innerHTML+"T00:00:00");
     var today = new Date();
     var difference = releaseDate - today;
     //less than 7 days away from release
-    if (difference / (1000 * 60 * 60 * 24) < 8 && difference / (1000 * 60 * 60 * 24) > 0 ) {
+    if (difference / (1000 * 60 * 60 * 24) < 1000 && difference / (1000 * 60 * 60 * 24) > 0 ) {
       var title = element.getElementsByClassName("title-text")[0].innerHTML;
       var titleText = title.split(" (");
       var episodeNum = element.getElementsByClassName("episodeNum")[0].innerHTML;
-      releaseStr += titleText[0] + " - " + episodeNum.replace(":", "") +"\n";
+      if (mediaType == "TV Series") releaseStr += titleText[0] + " - " + episodeNum.replace(":", "") +"\n";
+      else releaseStr += titleText[0]+"\n";
     }
   }
+  console.log(releaseStr);
   if (releaseStr != "") {
     displayNotification(releaseStr);
   }
