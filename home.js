@@ -157,11 +157,11 @@ async function displayMovies(movies) {
 //movies -> list of tv series ids
 async function displayTV(tv) {
   for (var i = 0; i < tv.length; i++) {
-    console.log(tvID)
     var tvID = tv[i].split("@");
+    console.log(tvID);
     var search_response = await axios.get(url+"/tv/"+tvID[0]+"?api_key="+apiKey+"&region=CA");
     var search_data = search_response.data;
-    console.log(search_data)
+    //console.log(search_data)
     var seasons = search_data["seasons"];
     var last_episode = search_data["last_episode_to_air"];
     var next_episode = search_data["next_episode_to_air"];
