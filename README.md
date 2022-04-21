@@ -9,6 +9,6 @@ Movie CountDown is a web application to allow users to generate countdowns for u
 
 ***The project uses The Movie Database's (TMDb) API.***
 
-[Link](https://www.cs.ryerson.ca/~g3chahal/Movie%20CountDown/home.html)
+[Link](https://gurveer-c1331.github.io/Movie-CountDown/)
 
 Created: Dec 2020 - Jan 2021
