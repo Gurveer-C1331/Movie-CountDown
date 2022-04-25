@@ -1,6 +1,7 @@
 var searchBtn = document.getElementById("search-btn");
 var searchBar = document.getElementById('search-bar');
 var container = document.getElementById('main-container'); //container to hold all cards
+var options = document.getElementById('options-container'); //options bar
 
 var filterMethod = document.getElementById('filter-method'); //filter text button
 var sortMethod = document.getElementById("sort-method"); //sort text button
@@ -17,8 +18,7 @@ var movie_Collection, tv_Collection; //to hold values for movie and tv series co
 
 $("document").ready(async function() {
   sortDirectionDown.style.display = "none"; //hide down arrow by default
-  informationText.style.display = "none";
-
+    
   //display loading image
   container.classList.add("results-loader");
   container.innerHTML = "<div class='loader'></div>";
@@ -45,6 +45,7 @@ $("document").ready(async function() {
   if (container.innerHTML == "") {
     informationText.style.display = null;
   }
+  else { options.style.display = null; }
 
   //refreshes countdown every second
   setInterval(function() {
