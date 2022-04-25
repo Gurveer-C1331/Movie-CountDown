@@ -40,6 +40,12 @@ html {
   cursor: pointer;
 }
 
+.filter-container img {
+  margin-right: .3em;
+  height: .7em;
+  cursor: pointer;
+}
+
 .sortBy-container img {
   margin-left: .3em;
   height: .9em;
@@ -83,8 +89,11 @@ html {
 }
 
 @media (max-width: 530px) {
-  .container {
+  .container{
     font-size: .9em;
+  }
+  .filter-container, .sortBy-container {
+    font-size: 1.11em;
   }
 }
 
@@ -94,8 +103,11 @@ html {
     padding-left: .5em;
     padding-right: .5em;
   }
-  .filter-container, .sortBy-container, #info-text {
-    font-size: .9em;
+  .filter-container, .sortBy-container {
+    font-size: 1.125em;
+  }
+  #info-text {
+    font-size: 0.9em;
   }
 }
 
@@ -103,7 +115,10 @@ html {
   .container {
     font-size: .7em;
   }
-  .filter-container, .sortBy-container, #info-text {
-    font-size: .8em;
+  .filter-container, .sortBy-container {
+    font-size: 1.143em;
+  }
+  #info-text {
+    font-size: 0.8em;
   }
 }
