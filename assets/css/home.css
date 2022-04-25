@@ -30,24 +30,12 @@ html {
   font-size: .95em;
 }
 
-.filter-container {
-  position: absolute;
-  left: 0%;
-  padding-left: 3em;
+#options-container {
+  display: flex;
+  justify-content: space-between;
 }
 
-.filter-container span {
-  font-size: .95em;
-  cursor: pointer;
-}
-
-.sortBy-container {
-  position: absolute;
-  right: 0%;
-  padding-right: 3em;
-}
-
-.sortBy-container span {
+.filter-container span, .sortBy-container span {
   font-size: .95em;
   cursor: pointer;
 }
@@ -60,7 +48,7 @@ html {
 
 .container {
   display: block;
-  padding: 2em 3em 3em 3em;
+  padding: 0em 3em 3em 3em;
   margin: auto;
   width: max-content;
   margin-bottom: 5em;
@@ -79,10 +67,11 @@ html {
 }
 
 @media (min-width: 1800px) {
-  .container {
+  #main-container {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-gap: 1em;
+    margin-top: 1em;
   }
 }
 
