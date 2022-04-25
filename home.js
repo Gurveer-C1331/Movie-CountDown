@@ -2,6 +2,7 @@ var searchBtn = document.getElementById("search-btn");
 var searchBar = document.getElementById('search-bar');
 var container = document.getElementById('main-container'); //container to hold all cards
 
+var filterMethod = document.getElementById('filter-method'); //filter text button
 var sortMethod = document.getElementById("sort-method"); //sort text button
 //direction arrow buttons 
 var sortDirectionUp = document.getElementById("sort-directionUp");
@@ -58,6 +59,7 @@ $("document").ready(async function() {
   });
 
   soonRelease();
+  filterReset();
 });
 
 searchBtn.addEventListener("click", async function (e) {
@@ -76,6 +78,22 @@ searchBar.addEventListener("keyup", async function(e) {
       window.location.href = "search.html";
     }
     e.preventDefault();
+  }
+});
+
+//user clicks the filter method text
+filterMethod.addEventListener("click", function(e) {
+  if (filterMethod.innerHTML == "All") {
+    filterMethod.innerHTML = "Movies";
+    filterMovies();
+  }
+  else if (filterMethod.innerHTML == "Movies") {
+    filterMethod.innerHTML = "TV Series";
+    filterTV();
+  }
+  else {
+    filterMethod.innerHTML = "All";
+    filterRest();
   }
 });
 
@@ -154,7 +172,7 @@ async function displayMovies(movies) {
 }
 
 //goes through the tv series list (from tv_Collection cookie) to add html card into cardArr
-//movies -> list of tv series ids
+//tv -> list of tv series ids
 async function displayTV(tv) {
   for (var i = 0; i < tv.length; i++) {
     var tvID = tv[i].split("@");
@@ -341,6 +359,39 @@ function displayNotification(titles) {
       });
     });
   }
+}
+
+//filters the list to only show tv shows
+function filterTV() {
+  for (var i = 0; i < cardArr.length; i++) {
+    var mediaType = cardArr[i].getElementsByClassName("media-text")[0].innerHTML;
+    if (mediaType == "Movie") {
+      cardArr[i].style.display = "none";
+    }
+    else {
+      cardArr[i].style.display = null;
+    }
+  } 
+}
+
+//filters the list to only show movies
+function filterMovies() {
+  for (var i = 0; i < cardArr.length; i++) {
+    var mediaType = cardArr[i].getElementsByClassName("media-text")[0].innerHTML;
+    if (mediaType == "TV Series") {
+      cardArr[i].style.display = "none";
+    }
+    else {
+      cardArr[i].style.display = null;
+    }
+  } 
+}
+
+//resets the filters applied
+function filterRest() {
+  for (var i = 0; i < cardArr.length; i++) {
+    cardArr[i].style.display = null;
+  } 
 }
 
 //sorts the list of movies/tv series based on the sort options user choose
