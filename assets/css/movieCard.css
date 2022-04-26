@@ -77,6 +77,10 @@
   display: inline-block;
 }
 
+.movie-genre-text {
+  opacity: 60%;
+}
+
 .middle {
   /* position: absolute; */
   /* top: 60%;
