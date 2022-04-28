@@ -1,5 +1,3 @@
-var searchBtn = document.getElementById("search-btn");
-var searchBar = document.getElementById('search-bar');
 var container = document.getElementById('main-container'); //container to hold all cards
 var options = document.getElementById('options-container'); //options bar
 
@@ -61,25 +59,6 @@ $("document").ready(async function() {
 
   soonRelease();
   filterReset();
-});
-
-searchBtn.addEventListener("click", async function (e) {
-  if (searchBar.value) {
-    document.cookie = "searchTyped="+searchBar.value;
-    window.location.href = "search.html";
-  }
-  e.preventDefault();
-});
-
-//user presses "Enter" when typing in the search bar
-searchBar.addEventListener("keyup", async function(e) {
-  if (e.keyCode == 13) {
-    if (searchBar.value) {
-      document.cookie = "searchTyped="+searchBar.value;
-      window.location.href = "search.html";
-    }
-    e.preventDefault();
-  }
 });
 
 //user clicks the filter method text

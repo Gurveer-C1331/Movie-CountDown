@@ -1,5 +1,3 @@
-var searchBtn = document.getElementById("search-btn");
-var searchBar = document.getElementById('search-bar');
 var exportBtn = document.getElementById('export');
 var importField = document.getElementById('import-field');
 var submitBtn = document.getElementById('submit-btn');
@@ -14,25 +12,6 @@ $("document").ready(async function() {
   tv_Collection = getCookie("tv_Collection") || [];
   //update collection.txt file
   saveCollectionData();
-});
-
-searchBtn.addEventListener("click", async function (e) {
-  if (searchBar.value) {
-    document.cookie = "searchTyped="+searchBar.value;
-    window.location.href = "search.html";
-  }
-  e.preventDefault();
-});
-
-//user presses "Enter" when typing in the search bar
-searchBar.addEventListener("keyup", async function(e) {
-  if (e.keyCode == 13) {
-    if (searchBar.value) {
-      document.cookie = "searchTyped="+searchBar.value;
-      window.location.href = "search.html";
-    }
-    e.preventDefault();
-  }
 });
 
 //returns cookie value based on cookie name passed
