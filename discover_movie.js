@@ -1,3 +1,4 @@
+import { getCookie, setCookie } from "./cookie.js";
 var resultsDiv = document.getElementById("results-container");
 var nextBtn = document.getElementById("next-btn");
 var previousBtn = document.getElementById("previous-btn");
@@ -13,31 +14,6 @@ var movie_Collection = getCookie("movie_Collection") || [];
 if (typeof movie_Collection == "string") movie_Collection = [movie_Collection];
 var tv_Collection = getCookie("tv_Collection") || [];
 if (typeof tv_Collection == "string") tv_Collection = [tv_Collection];
-
-//returns cookie value based on cookie name passed
-//cookieName -> name of the cookie
-//return -> value contained in the cookie
-function getCookie(cookieName) {
-  var cookies = document.cookie.split(';');
-  for (var i = 0; i < cookies.length; i++) {
-    if (cookies[i].includes(cookieName)) {
-      console.log(cookieName);
-      console.log(cookies[i].split('=')[1]);
-      var cookie_value = cookies[i].split('=')[1];
-      if (cookie_value.includes(',')) {
-        return cookie_value.split(',');
-      }
-      return cookie_value;
-    }
-  }
-}
-
-//sets cookies based on name, value and expires after specified days
-function setCookie(name, value, days) {
-  var expireDate =  new Date();
-  expireDate.setTime(expireDate.getTime() + (days*24*60*60*1000));
-  document.cookie = name+"="+value+";expires="+expireDate.toUTCString();
-}
 
 $("document").ready(async function() {
   //hide previous and next buttons by default

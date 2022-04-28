@@ -1,3 +1,4 @@
+import { getCookie, setCookie } from "./cookie.js";
 var container = document.getElementById('main-container'); //container to hold all cards
 var options = document.getElementById('options-container'); //options bar
 
@@ -28,8 +29,6 @@ $("document").ready(async function() {
   //gets the tv series collection (from the tv_Collection cookie)
   tv_Collection = getCookie("tv_Collection") || [];
   if (typeof tv_Collection == "string") tv_Collection = [tv_Collection];
-  //if (tv_Collection != []) updateTVID();
-  //setCookie("tv_Collection", ["456@33", "120734@0", "88329@0", "134297@0", "134029@0", "115036@0", "131404@0", "80968@2", "100698@1", "116156@0", "116155@0", "110492@0", "137003@0"], 365)
   await displayTV(tv_Collection);
   
   //remove loading image
@@ -104,30 +103,6 @@ sortDirectionDown.addEventListener("click", function(e) {
   sortDirectionDown.style.display = "none";
   sortDirectionUp.style.display = null;
 });
-
-//returns cookie value based on cookie name passed
-//cookieName -> name of the cookie
-//return -> value contained in the cookie
-function getCookie(cookieName) {
-  var cookies = document.cookie.split(';');
-  for (var i = 0; i < cookies.length; i++) {
-    if (cookies[i].includes(cookieName)) {
-      console.log(cookies[i].split('=')[1], cookieName);
-      var cookie_value = cookies[i].split('=')[1];
-      if (cookie_value.includes(',')) {
-        return cookie_value.split(',');
-      }
-      return cookie_value;
-    }
-  }
-}
-
-//sets cookies based on name, value and expires after specified days
-function setCookie(name, value, days) {
-  var expireDate =  new Date();
-  expireDate.setTime(expireDate.getTime() + (days*24*60*60*1000));
-  document.cookie = name+"="+value+";expires="+expireDate.toUTCString();
-}
 
 //replaces old tv series ids with updated ones
 function updateTVID() {
