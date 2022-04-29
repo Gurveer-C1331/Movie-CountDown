@@ -198,7 +198,7 @@ function setRemoveBtn(element) {
       tv_Collection.splice(index, 1);
       setCookie("tv_Collection", tv_Collection, 365);
     }
-    e.srcElement.parentElement.parentElement.parentElement.remove(); //remove entire card
+    element.remove(); //remove entire card
     e.preventDefault();
   });
 }
