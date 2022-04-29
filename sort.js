@@ -51,31 +51,36 @@ export function sortList(method, direction) {
   //appends all cards into the main container
   for (var i = 0; i < cardArr.length; i++) {
     container.append(cardArr[i]);
-    //sets animation for title and studio texts longer than card's width
-    var textContainer = cardArr[i].getElementsByClassName("text-container");
-    var textContainerWidth = parseFloat(window.getComputedStyle(textContainer[0]).width);
-    var titleText = cardArr[i].getElementsByClassName("title-text");
-    var studioText = cardArr[i].getElementsByClassName("studio-text");
-    var episodeText = cardArr[i].getElementsByClassName("episode-text");
-    var movieGenre = cardArr[i].getElementsByClassName("movie-genre-text");
-    var tvlineBreak = cardArr[i].getElementsByClassName("tv-lineBreak");
-    var mediaText = cardArr[i].getElementsByClassName("media-text");
-    if (titleText[0].scrollWidth > textContainerWidth) {
-      titleText[0].style.animation = "scrollText 8s linear infinite";
-    }
-    if (studioText[0].scrollWidth > textContainerWidth) {
-      studioText[0].style.animation = "scrollText 8s linear infinite";
-    }
-    if (episodeText[0].scrollWidth > textContainerWidth) {
-      episodeText[0].style.animation = "scrollText 8s linear infinite";
-    }
-    if (mediaText[0].innerHTML == "Movie") {
-      episodeText[0].style.display = "none";
-      tvlineBreak[0].style.display = "none";
-    }
-    else {
-      movieGenre[0].style.display = "none";
-    }
+    setText(cardArr[i]);   
+  }
+}
+
+//updates how and what text is shown on individually cards
+function setText(element) {
+  var textContainer = element.getElementsByClassName("text-container");
+  var textContainerWidth = parseFloat(window.getComputedStyle(textContainer[0]).width);
+  var titleText = element.getElementsByClassName("title-text");
+  var studioText = element.getElementsByClassName("studio-text");
+  var episodeText = element.getElementsByClassName("episode-text");
+  var movieGenre = element.getElementsByClassName("movie-genre-text");
+  var tvlineBreak = element.getElementsByClassName("tv-lineBreak");
+  var mediaText = element.getElementsByClassName("media-text");
+  //sets animation for title, studio and episode texts longer than card's width
+  if (titleText[0].scrollWidth > textContainerWidth) {
+    titleText[0].style.animation = "scrollText 8s linear infinite";
+  }
+  if (studioText[0].scrollWidth > textContainerWidth) {
+    studioText[0].style.animation = "scrollText 8s linear infinite";
+  }
+  if (episodeText[0].scrollWidth > textContainerWidth) {
+    episodeText[0].style.animation = "scrollText 8s linear infinite";
+  }
+  if (mediaText[0].innerHTML == "Movie") {
+    episodeText[0].style.display = "none";
+    tvlineBreak[0].style.display = "none";
+  }
+  else {
+    movieGenre[0].style.display = "none";
   }
 }
 
