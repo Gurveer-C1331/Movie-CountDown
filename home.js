@@ -3,7 +3,6 @@ import { sortList } from "./sort.js";
 var container = document.getElementById('main-container'); //container to hold all cards
 var options = document.getElementById('options-container'); //options bar
 
-var filterMethod = document.getElementById('filter-method'); //filter text button
 var sortDirectionDown = document.getElementById("sort-directionDown"); //down arrow button
 var informationText = document.getElementById("info-text");
 export var cardArr = []; //will hold all movie/tv series cards (html elements created in createCard)
@@ -56,22 +55,6 @@ $("document").ready(async function() {
 
   soonRelease();
   filterReset();
-});
-
-//user clicks the filter method text
-filterMethod.addEventListener("click", function(e) {
-  if (filterMethod.innerHTML == "All") {
-    filterMethod.innerHTML = "Movies";
-    filterMovies();
-  }
-  else if (filterMethod.innerHTML == "Movies") {
-    filterMethod.innerHTML = "TV Series";
-    filterTV();
-  }
-  else {
-    filterMethod.innerHTML = "All";
-    filterRest();
-  }
 });
 
 //replaces old tv series ids with updated ones
@@ -286,37 +269,4 @@ function displayNotification(titles) {
       });
     });
   }
-}
-
-//filters the list to only show tv shows
-function filterTV() {
-  for (var i = 0; i < cardArr.length; i++) {
-    var mediaType = cardArr[i].getElementsByClassName("media-text")[0].innerHTML;
-    if (mediaType == "Movie") {
-      cardArr[i].style.display = "none";
-    }
-    else {
-      cardArr[i].style.display = null;
-    }
-  } 
-}
-
-//filters the list to only show movies
-function filterMovies() {
-  for (var i = 0; i < cardArr.length; i++) {
-    var mediaType = cardArr[i].getElementsByClassName("media-text")[0].innerHTML;
-    if (mediaType == "TV Series") {
-      cardArr[i].style.display = "none";
-    }
-    else {
-      cardArr[i].style.display = null;
-    }
-  } 
-}
-
-//resets the filters applied
-function filterRest() {
-  for (var i = 0; i < cardArr.length; i++) {
-    cardArr[i].style.display = null;
-  } 
 }
