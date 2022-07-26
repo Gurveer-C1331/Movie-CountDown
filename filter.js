@@ -13,7 +13,7 @@ filterMethod.addEventListener("click", function(e) {
   }
   else {
     filterMethod.innerHTML = "All";
-    filterRest();
+    filterReset();
   }
 });
 
@@ -44,7 +44,7 @@ function filterMovies() {
 }
 
 //resets the filters applied
-function filterRest() {
+export function filterReset() {
   for (var i = 0; i < cardArr.length; i++) {
     cardArr[i].style.display = null;
   } 

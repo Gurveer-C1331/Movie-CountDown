@@ -1,5 +1,6 @@
 import { getCookie, setCookie } from "./cookie.js";
 import { sortList } from "./sort.js";
+import { filterReset } from "./filter.js"
 var container = document.getElementById('main-container'); //container to hold all cards
 var options = document.getElementById('options-container'); //options bar
 
