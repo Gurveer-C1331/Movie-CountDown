@@ -74,7 +74,14 @@ function updateTVID() {
 //movies -> list of movie ids
 async function displayMovies(movies) {
   for (var i = 0; i < movies.length; i++) {
-    var search_response = await axios.get(url+"/movie/"+movies[i]+"?api_key="+apiKey+"&region=CA");
+    try {
+      var search_response = await axios.get(url+"/movie/"+movies[i]+"?api_key="+apiKey+"&region=CA");
+    }
+    catch (error) {
+      console.log("Error loading movie data for id: " + movies[i]);
+      continue;
+    }
+
     var search_data = search_response.data;
     cardArr.push(createCard(search_data, "Movie"));
   }
@@ -86,7 +93,15 @@ async function displayTV(tv) {
   for (var i = 0; i < tv.length; i++) {
     var tvID = tv[i].split("@");
     console.log(tvID);
-    var search_response = await axios.get(url+"/tv/"+tvID[0]+"?api_key="+apiKey+"&region=CA");
+
+    try {
+      var search_response = await axios.get(url+"/tv/"+tvID[0]+"?api_key="+apiKey+"&region=CA");
+    }
+    catch (error) {
+      console.log("Error loading tv data for id: " + tvID);
+      continue;
+    }
+
     var search_data = search_response.data;
     //console.log(search_data)
     var seasons = search_data["seasons"];
