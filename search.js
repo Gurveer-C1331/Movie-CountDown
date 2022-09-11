@@ -1,3 +1,4 @@
+import { getCookie, setCookie } from "./cookie.js";
 var searchBtn = document.getElementById("search-btn");
 var searchBar = document.getElementById('search-bar');
 var resultsDiv = document.getElementById("results-container");
@@ -17,31 +18,6 @@ var movie_Collection = getCookie("movie_Collection") || [];
 if (typeof movie_Collection == "string") movie_Collection = [movie_Collection];
 var tv_Collection = getCookie("tv_Collection") || [];
 if (typeof tv_Collection == "string") tv_Collection = [tv_Collection];
-
-//returns cookie value based on cookie name passed
-//cookieName -> name of the cookie
-//return -> value contained in the cookie
-function getCookie(cookieName) {
-  var cookies = document.cookie.split(';');
-  for (var i = 0; i < cookies.length; i++) {
-    if (cookies[i].includes(cookieName)) {
-      console.log(cookieName);
-      console.log(cookies[i].split('=')[1]);
-      var cookie_value = cookies[i].split('=')[1];
-      if (cookie_value.includes(',')) {
-        return cookie_value.split(',');
-      }
-      return cookie_value;
-    }
-  }
-}
-
-//sets cookies based on name, value and expires after specified days
-function setCookie(name, value, days) {
-  var expireDate =  new Date();
-  expireDate.setTime(expireDate.getTime() + (days*24*60*60*1000));
-  document.cookie = name+"="+value+";expires="+expireDate.toUTCString();
-}
 
 //gets the searchString inside cookie "searchTyped" and conducts search on loading of the page
 $("document").ready(async function() {
@@ -124,6 +100,9 @@ async function getSearch(searchString, page) {
     currentPage = page;
     totalPages = search_data["total_pages"];
 
+    //hide previous and next buttons
+    $("#previous-btn").hide();
+    $("#next-btn").hide();
     //display loading image
     resultsDiv.classList.add("results-loader");
     resultsDiv.innerHTML = "<div class='loader'></div>";
@@ -135,24 +114,6 @@ async function getSearch(searchString, page) {
     resultsDiv.classList.remove("results-loader");
 
     if (search_results.length != 0) {
-      //set previous & next button to hide or show (depending the # of resulting pages & current page being viewed)
-      if (previousPage.length == 1 && currentPage == totalPages) {
-        $("#previous-btn").hide();
-        $("#next-btn").hide();
-      }
-      else if (previousPage.length == 1) {
-        $("#previous-btn").hide();
-        $("#next-btn").show();
-      }
-      else if (currentPage == totalPages) {
-        $("#previous-btn").show();
-        $("#next-btn").hide();
-      }
-      else {
-        $("#previous-btn").show();
-        $("#next-btn").show();
-      }
-      
       //create cards for all search results
       for (var i = 0; i < search_results.length; i++) {
         //getting data to create card
@@ -161,10 +122,7 @@ async function getSearch(searchString, page) {
         var id = search_results[i]["id"];
         var mediaType = search_results[i]["media_type"];
         //append the searchCard created to the results
-        if (mediaType == "movie") resultsDiv.append(createCard(title, poster, id, mediaType)); //append movie results
-        //append tv results (future season # is added to the end of id string)
-        //id = "12300"; new season # = "5" => new id = "12300@5"
-        else resultsDiv.append(createCard(title, poster, id+"@"+String(search_results[i]["currentSeason"]), mediaType));
+        resultsDiv.append(createCard(title, poster, id, mediaType));
       }
 
       addBtn = document.getElementsByClassName("add-text");
@@ -220,6 +178,23 @@ async function getSearch(searchString, page) {
         });
       }
    
+      //set previous & next button to hide or show (depending the # of resulting pages & current page being viewed)
+      if (previousPage.length == 1 && currentPage == totalPages) {
+        $("#previous-btn").hide();
+        $("#next-btn").hide();
+      }
+      else if (previousPage.length == 1) {
+        $("#previous-btn").hide();
+        $("#next-btn").show();
+      }
+      else if (currentPage == totalPages) {
+        $("#previous-btn").show();
+        $("#next-btn").hide();
+      }
+      else {
+        $("#previous-btn").show();
+        $("#next-btn").show();
+      }
     }
     
     //no results (after filtering out movies/tv series that have already released)
@@ -305,24 +280,29 @@ async function combineResults(searchString) {
   return resultsArr;
 }
 
-//checks tv series to check for any future seasons
+//checks tv series to check for any future seasons or ongoing seasons with future episodes
 //searchItem -> tv series object (retrieved from API)
 //return -> true (if there exists a future season) along with season object OR false (no future seasons)
 async function checkTv(searchItem) {
   var search_response = await axios.get(url+"/tv/"+searchItem["id"]+"?api_key="+apiKey);
   var search_data = search_response.data;
-  var seasons = search_data["seasons"];
+  //console.log(search_data);
+  if (!search_data["next_episode_to_air"]) return false;
+  var next_episode = search_data["next_episode_to_air"];
+  var season_number;
+  if (search_data["seasons"][next_episode["season_number"]]) season_number = next_episode["season_number"];
+  else season_number = (search_data["seasons"].length)-1;
+  var season = search_data["seasons"][season_number] || search_data["seasons"][(search_data["seasons"].length)-1];
   var today = new Date();
-  for (var i = 0; i < seasons.length; i++) {
-    var airDate = new Date(seasons[i]["air_date"]+"T00:00:00");
-    //if there is a planned season for the future
-    if (today.getTime() < airDate.getTime()) {
-      //modify data (for the specific season)
-      searchItem["name"] += " ("+seasons[i]["name"]+")";
-      searchItem["currentSeason"] = i;
-      searchItem["poster_path"] = seasons[i]["poster_path"] || search_data["poster_path"];
-      return true;
-    }
+  var airDate = new Date(next_episode["air_date"]+"T00:00:00");
+  //if there is a planned episode for the future
+  if (today.getTime() < airDate.getTime() && next_episode) {
+    //modify data (for the specific season)
+    searchItem["name"] += " ("+season["name"]+")";
+    searchItem["currentSeason"] = season_number;
+    searchItem["currentEpisode"] = next_episode["episode_number"];
+    searchItem["poster_path"] = season["poster_path"] || search_data["poster_path"];
+    return true;
   }
   return false;
 }

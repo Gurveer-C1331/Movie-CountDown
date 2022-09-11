@@ -30,26 +30,30 @@ html {
   font-size: .95em;
 }
 
-.sortBy-container {
-  position: absolute;
-  right: 0%;
-  padding-right: 3em;
+#options-container {
+  display: flex;
+  justify-content: space-between;
 }
 
-.sortBy-container span {
+.filter-container span, .sortBy-container span {
   font-size: .95em;
   cursor: pointer;
 }
 
+.filter-container img {
+  margin-right: .3em;
+  height: .9em;
+}
+
 .sortBy-container img {
-  margin-left: .5em;
+  margin-left: .3em;
   height: .9em;
   cursor: pointer;
 }
 
 .container {
   display: block;
-  padding: 2em 3em 3em 3em;
+  padding: 0em 3em 3em 3em;
   margin: auto;
   width: max-content;
   margin-bottom: 5em;
@@ -62,16 +66,17 @@ html {
 }
 
 @media (min-width: 2000px) {
-  .sortBy-container, #info-text {
+  .filter-container, .sortBy-container, #info-text {
     font-size: 1.3em;
   }
 }
 
 @media (min-width: 1800px) {
-  .container {
+  #main-container {
     display: grid;
     grid-template-columns: 50% 50%;
     grid-gap: 1em;
+    margin-top: 1em;
   }
 }
 
@@ -83,8 +88,11 @@ html {
 }
 
 @media (max-width: 530px) {
-  .container {
+  .container{
     font-size: .9em;
+  }
+  .filter-container, .sortBy-container {
+    font-size: 1.11em;
   }
 }
 
@@ -94,8 +102,11 @@ html {
     padding-left: .5em;
     padding-right: .5em;
   }
-  .sortBy-container, #info-text {
-    font-size: .9em;
+  .filter-container, .sortBy-container {
+    font-size: 1.125em;
+  }
+  #info-text {
+    font-size: 0.9em;
   }
 }
 
@@ -103,7 +114,10 @@ html {
   .container {
     font-size: .7em;
   }
-  .sortBy-container, #info-text {
-    font-size: .8em;
+  .filter-container, .sortBy-container {
+    font-size: 1.143em;
+  }
+  #info-text {
+    font-size: 0.8em;
   }
 }

@@ -37,12 +37,14 @@
   border-radius: 0 20px 20px 0;
   height: 12.5em;
   line-height: 1.56em;
+  display: flex;
+  flex-direction: column;
 }
 
 .top {
   position: relative;
   top: 0%;
-  padding-top: 1em;
+  padding: 1em 0 0.5em 0;
   overflow: hidden;
 }
 
@@ -70,17 +72,23 @@
 
 .studio-text {
   font-size: 1.125em;
-  opacity: 75%;
+  opacity: 80%;
   white-space: nowrap;
   display: inline-block;
 }
 
+.movie-genre-text {
+  opacity: 60%;
+}
+
 .middle {
-  position: absolute;
-  top: 60%;
+  /* position: absolute; */
+  /* top: 60%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%); */
   width: max-content;
+  padding-bottom: 0.5em;
+  align-self: center;
 }
 
 .time-row span{
@@ -103,7 +111,7 @@ td {
 }
 
 td img {
-  vertical-align: sub;
+  vertical-align: -0.2em;
 }
 
 .days {
@@ -124,17 +132,37 @@ td img {
   font-size: 1.125em;
   font-weight: 300;
   opacity: 65%;
-  padding-top: .4em;
+  /* padding-top: .4em; */
 }
 
 .date-text img {
-  padding-right: .5em;
-  height: 1.3em;
+  padding-right: .25em;
+  height: 1.1em;
 }
 
 .media-text {
   font-size: 1.125em;
   font-weight: 300;
+}
+
+.bottom {
+  position: relative;
+  bottom: 0%;
+  padding-bottom: 0.5em;
+  overflow: hidden;
+}
+
+.episode-text {
+  font-size: 1.125em;
+  position: relative;
+  bottom: 0%;
+  font-weight: 300;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.episode-text strong {
+  font-weight: 500;
 }
 
 .remove-text img {
@@ -200,7 +228,7 @@ td img {
   
   .date-text {
     font-size: 1em;
-    padding-top: .3em;
+    /* padding-top: .3em; */
   }
   
   /* .date-text img {
@@ -222,9 +250,9 @@ td img {
   .card-container {
     width: 30em;
   }
-  .middle {
+  /* .middle {
     padding-top: 1.5em;
-  }
+  } */
 }
 
 @media (max-width: 480px) {

@@ -84,6 +84,9 @@ footer {
   .links-container {
     margin: auto;
   }
+  .links-container a:last-child {
+    margin-right: 0;
+  }
   h1 {
     margin: auto;
     text-align: center;
